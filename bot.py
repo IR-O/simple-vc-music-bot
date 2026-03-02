@@ -11,9 +11,10 @@ from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION
 bot = Client("bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 assistant = Client(
-    STRING_SESSION,
+    "assistant",
     api_id=API_ID,
-    api_hash=API_HASH
+    api_hash=API_HASH,
+    session_string=STRING_SESSION
 )
 
 call = PyTgCalls(assistant)
@@ -40,22 +41,10 @@ async def play(_, message: Message):
     chat_id = message.chat.id
 
     try:
-        await call.join_group_call(
-            chat_id,
-            AudioPiped(
-                url,
-                HighQualityAudio(),
-            ),
-        )
+        await call.join_group_call(chat_id, AudioPiped(url, HighQualityAudio()))
     except:
         await call.leave_group_call(chat_id)
-        await call.join_group_call(
-            chat_id,
-            AudioPiped(
-                url,
-                HighQualityAudio(),
-            ),
-        )
+        await call.join_group_call(chat_id, AudioPiped(url, HighQualityAudio()))
 
     await message.reply(f"🎵 Playing: **{title}**")
 
