@@ -4,8 +4,7 @@ import yt_dlp
 from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 from pytgcalls import PyTgCalls
-from pytgcalls.types.input_stream import AudioPiped
-from pytgcalls.types.input_stream.quality import HighQualityAudio
+from pytgcalls.types import AudioPiped, HighQualityAudio
 
 from config import API_ID, API_HASH, BOT_TOKEN, STRING_SESSION
 
@@ -41,10 +40,22 @@ async def play(_, message: Message):
     chat_id = message.chat.id
 
     try:
-        await call.join_group_call(chat_id, AudioPiped(url, HighQualityAudio()))
+        await call.join_group_call(
+            chat_id,
+            AudioPiped(
+                url,
+                HighQualityAudio(),
+            ),
+        )
     except:
         await call.leave_group_call(chat_id)
-        await call.join_group_call(chat_id, AudioPiped(url, HighQualityAudio()))
+        await call.join_group_call(
+            chat_id,
+            AudioPiped(
+                url,
+                HighQualityAudio(),
+            ),
+        )
 
     await message.reply(f"🎵 Playing: **{title}**")
 
