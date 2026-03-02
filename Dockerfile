@@ -2,7 +2,6 @@ FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERED=1
 
-# Install system deps + NodeJS (required for PyTgCalls)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     git \
